@@ -1,25 +1,30 @@
-// main.cpp
+// main.cpp - Command Line Interface (CLI) for Web (Expanded)
 
 #include "Stack.h"
 #include "Queue.h"
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <stdexcept>
-#include <algorithm> // For std::transform (optional cleanup)
+#include <limits> // Included for safety
 
+// Static instances to maintain the state during the program's short run
 MyStack my_stack;
 MyQueue my_queue;
 
+// Helper function to validate input
 bool is_valid_int(const std::string& str) {
     if (str.empty()) return false;
     for (char c : str) {
+        // Allow optional leading minus sign for negative numbers
         if (c != '-' && !std::isdigit(c)) return false;
     }
     return true;
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 2) { 
+    // If no command, return stack data by default (initialization)
+    if (argc < 2) {
         std::cout << my_stack.get_data_string(); 
         return 0;
     }
@@ -27,41 +32,60 @@ int main(int argc, char* argv[]) {
     std::string command = argv[1];
     int value = 0;
 
+    // --- Process Commands ---
     try {
         if (command == "stack_push") {
             if (argc < 3 || !is_valid_int(argv[2])) throw std::runtime_error("Value required.");
             value = std::stoi(argv[2]);
             my_stack.push(value);
-            std::cout << my_stack.get_data_string();
-        } else if (command == "stack_pop") {
+            std::cout << my_stack.get_data_string(); // Output data state
+        } 
+        else if (command == "stack_pop") {
             my_stack.pop();
-            std::cout << my_stack.get_data_string();
-        } else if (command == "stack_peek") {
-            std::cout << my_stack.peek();
-        } else if (command == "stack_size") {
-            std::cout << my_stack.size();
-        } else if (command == "stack_capacity") {
-            std::cout << my_stack.capacity();
-        } else if (command == "stack_display") {
-            std::cout << my_stack.get_data_string();
+            std::cout << my_stack.get_data_string(); // Output data state
+        } 
+        else if (command == "stack_peek") {
+            // Peek should just output the single value
+            std::cout << my_stack.peek(); // Assuming peek() returns the element as an int
         }
+        else if (command == "stack_size") {
+            // Size should just output the single value
+            std::cout << my_stack.size(); // Assuming size() returns the count as an int
+        }
+        else if (command == "stack_capacity") {
+            // Capacity should just output the single value
+            std::cout << my_stack.capacity(); // Assuming capacity() returns the max size as an int
+        }
+        else if (command == "stack_display") {
+            std::cout << my_stack.get_data_string(); // Output data state
+        }
+        
+        // --- Queue Operations ---
         
         else if (command == "queue_enqueue") {
             if (argc < 3 || !is_valid_int(argv[2])) throw std::runtime_error("Value required.");
             value = std::stoi(argv[2]);
             my_queue.enqueue(value);
-            std::cout << my_queue.get_data_string();
-        } else if (command == "queue_dequeue") {
+            std::cout << my_queue.get_data_string(); // Output data state
+        } 
+        else if (command == "queue_dequeue") {
             my_queue.dequeue();
-            std::cout << my_queue.get_data_string();
-        } else if (command == "queue_peek") {
-            std::cout << my_queue.peek();
-        } else if (command == "queue_size") {
-            std::cout << my_queue.size();
-        } else if (command == "queue_capacity") {
-            std::cout << my_queue.capacity();
-        } else if (command == "queue_display") {
-            std::cout << my_queue.get_data_string();
+            std::cout << my_queue.get_data_string(); // Output data state
+        } 
+        else if (command == "queue_peek") {
+            // Peek should just output the single value
+            std::cout << my_queue.peek(); // Assuming peek() returns the element as an int
+        }
+        else if (command == "queue_size") {
+            // Size should just output the single value
+            std::cout << my_queue.size(); // Assuming size() returns the count as an int
+        }
+        else if (command == "queue_capacity") {
+            // Capacity should just output the single value
+            std::cout << my_queue.capacity(); // Assuming capacity() returns the max size as an int
+        }
+        else if (command == "queue_display") {
+            std::cout << my_queue.get_data_string(); // Output data state
         } 
         else {
             std::cerr << "UNKNOWN_COMMAND\n";
@@ -69,7 +93,8 @@ int main(int argc, char* argv[]) {
         }
 
     } catch (const std::exception& e) {
-        std::cerr << e.what(); // Print error message for Python to catch
+        // Catch general errors (like underflow/overflow logic defined in headers)
+        std::cerr << "ERROR: " << e.what() << "\n";
         return 1; 
     }
 
