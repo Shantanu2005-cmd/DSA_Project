@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Stack/Queue Simulator</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <div class="container">
+        <h1>Stack & Queue DSA Simulator</h1>
+        <p>Max Size: 5. Backend Logic is powered by C++.</p>
+
+        <div class="input-area">
+            <label for="inputValue">Value to PUSH/ENQUEUE:</label>
+            <input type="number" id="inputValue" value="10" min="1" max="999">
+        </div>
+
+        <div class="data-structure-box">
+            <h2>STACK (LIFO)</h2>
+            <div class="structure-display" id="stack-container">
+                <p>Stack is empty. Push an element!</p>
+            </div>
+            <div class="controls">
+                <button onclick="operate('stack_push')">PUSH</button>
+                <button onclick="operate('stack_pop')">POP</button>
+                <button onclick="operateValue('stack_peek', 'Stack Peek')">PEEK</button>
+                <button onclick="operateValue('stack_size', 'Stack Size')">SIZE</button>
+                <button onclick="operateValue('stack_capacity', 'Stack Capacity')">CAPACITY</button>
+            </div>
+        </div>
+
+        <div class="data-structure-box">
+            <h2>QUEUE (FIFO)</h2>
+            <div class="structure-display" id="queue-container">
+                <p>Queue is empty. Enqueue an element!</p>
+            </div>
+            <div class="controls">
+                <button onclick="operate('queue_enqueue')">ENQUEUE</button>
+                <button onclick="operate('queue_dequeue')">DEQUEUE</button>
+                <button onclick="operateValue('queue_peek', 'Queue Peek')">PEEK</button>
+                <button onclick="operateValue('queue_size', 'Queue Size')">SIZE</button>
+                <button onclick="operateValue('queue_capacity', 'Queue Capacity')">CAPACITY</button>
+            </div>
+        </div>
+
+        <div id="message-area"></div>
+    </div>
+
+    <script src="script.js"></script> 
+</body>
+</html>
