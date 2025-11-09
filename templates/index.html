@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Stack/Queue Simulator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f4f4f9; }
+        .container { max-width: 1200px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
+        .data-structure-box { border: 1px solid #ddd; padding: 20px; margin-bottom: 25px; border-radius: 8px; background-color: #fcfcff; }
+        h1, h2 { color: #2c3e50; }
+        .structure-display { 
+            display: flex; min-height: 100px; padding: 15px; border: 1px dashed #bbb; border-radius: 4px; 
+            background-color: #e8f5e9; /* Light Green */
+            justify-content: flex-start; 
+        }
+        .element { 
+            background-color: #388e3c; /* Dark Green */
+            color: white; padding: 10px 15px; margin: 0 5px; border-radius: 5px; 
+            font-weight: bold; min-width: 60px; text-align: center; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.3s ease; 
+        }
+        /* Stack specific styles for vertical LIFO display */
+        #stack-container { flex-direction: column-reverse; align-items: center; background-color: #fbecec; /* Light Red */ }
+        #stack-container .element { width: 100px; margin: 5px 0; }
+        /* Queue specific styles for horizontal FIFO display */
+        #queue-container { flex-direction: row; align-items: center; }
+        /* Controls */
+        input[type="number"], button { padding: 10px 15px; margin-right: 10px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px; }
+        button { background-color: #3498db; color: white; cursor: pointer; border: none; transition: background-color 0.2s; }
+        button:hover { background-color: #2980b9; }
+        .controls { margin-top: 15px; display: flex; align-items: center; flex-wrap: wrap; }
+        #message-area { color: #c0392b; font-weight: bold; margin-top: 15px; border: 1px solid #e74c3c; padding: 10px; border-radius: 4px; background-color: #f9e3e1; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Stack & Queue DSA Simulator</h1>
+        <p>Backend Logic: **C++** | Web Interface: **Python Flask + HTML/JS** | Max Size: **5**</p>
+
+        <div style="margin-bottom: 30px; padding: 10px; border: 1px solid #ccc; border-radius: 8px;">
+            <label for="inputValue" style="font-size: 1.1em; font-weight: 600;">Value to PUSH/ENQUEUE:</label>
+            <input type="number" id="inputValue" value="10" min="1" max="999">
+        </div>
+
+        <div class="data-structure-box">
+            <h2>STACK (LIFO)</h2>
+            <p>Elements are added and removed from the **Top**.</p>
+            <div class="structure-display" id="stack-container">
+                <p>Stack is empty. Push an element!</p>
+            </div>
+            <div class="controls">
+                <button onclick="operate('stack_push')">PUSH</button>
+                <button onclick="operate('stack_pop')">POP</button>
+            </div>
+        </div>
+
+        <div class="data-structure-box">
+            <h2>QUEUE (FIFO)</h2>
+            <p>Elements are ENQUEUED at the **Rear** and DEQUEUED from the **Front**.</p>
+            <div class="structure-display" id="queue-container">
+                <p>Queue is empty. Enqueue an element!</p>
+            </div>
+            <div class="controls">
+                <button onclick="operate('queue_enqueue')">ENQUEUE</button>
+                <button onclick="operate('queue_dequeue')">DEQUEUE</button>
+            </div>
+        </div>
+
+        <div id="message-area"></div>
+    </div>
+
+    <script>
+        const stackContainer = document.getElementById('stack-container');
+        const queueContainer = document.getElementById('queue-container');
+        const inputValue = document.getElementById('inputValue');
+        const messageArea = document.getElementById('message-area');
+
+        // --- RENDER LOGIC ---
+        function renderStructure(container, data, type) {
+            container.innerHTML = '';
+            if (data.length === 0) {
+                container.innerHTML = `<p>${type} is empty.</p>`;
+                return;
+            }
+
+            data.forEach((item, index) => {
+                const element = document.createElement('div');
+                element.className = 'element';
+                element.textContent = item;
+                
+                // Highlight the Top/Front element
+                if ((type === 'Stack' && index === data.length - 1) || (type === 'Queue' && index === 0)) {
+                    element.style.backgroundColor = '#e67e22'; // Orange
+                    element.textContent += (type === 'Stack' ? ' (TOP)' : ' (FRONT)');
+                }
+                
+                container.appendChild(element);
+            });
+        }
+
+        // --- API CALL LOGIC ---
+        async function operate(command) {
+            let value = null;
+            messageArea.style.display = 'none'; // Hide message area
+            messageArea.textContent = ''; 
+
+            if (command.includes('push') || command.includes('enqueue')) {
+                value = parseInt(inputValue.value);
+                if (isNaN(value) || value === null) {
+                    messageArea.textContent = "Please enter a valid number for the operation.";
+                    messageArea.style.display = 'block';
+                    return;
+                }
+            }
+
+            try {
+                const response = await fetch('/api/operate', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ command: command, value: value })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    // Handle C++ errors (Overflow, Underflow)
+                    throw new Error(result.message || 'Operation failed on the server side.');
+                }
+                
+                // Update the correct structure display
+                if (command.includes('stack')) {
+                    renderStructure(stackContainer, result.data, 'Stack');
+                } else if (command.includes('queue')) {
+                    renderStructure(queueContainer, result.data, 'Queue');
+                }
+
+            } catch (error) {
+                messageArea.textContent = 'ERROR: ' + error.message;
+                messageArea.style.display = 'block';
+            }
+        }
+
+        // Initialize display by sending a display command to the C++ engine
+        async function initializeDisplay() {
+             await operate('stack_display');
+             await operate('queue_display');
+        }
+
+        window.onload = initializeDisplay;
+    </script>
+</body>
+</html>
