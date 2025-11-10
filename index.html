@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stack & Queue Simulator | DSA Project</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Stack & Queue Simulator (DSA Project)</h1>
+
+    <div class="mode-selector">
+      <label for="mode">Select Mode:</label>
+      <select id="mode">
+        <option value="stack">Stack</option>
+        <option value="queue">Queue</option>
+      </select>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="valueInput" placeholder="Enter value" />
+      <button id="pushBtn">Push / Enqueue</button>
+      <button id="popBtn">Pop / Dequeue</button>
+      <button id="peekBtn">Peek / Front</button>
+      <button id="displayBtn">Display</button>
+      <button id="checkEmptyBtn">IsEmpty</button>
+      <button id="checkFullBtn">IsFull</button>
+    </div>
+
+    <div id="visual-container" class="visual"></div>
+    <div id="output" class="output-box"></div>
+    <p id="message"></p>
+  </div>
+
+  
+
+  <script src="script.js"></script>
+</body>
+</html>

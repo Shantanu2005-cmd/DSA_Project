@@ -1,0 +1,153 @@
+/* --- Google Font Import (Example: Roboto or Inter) --- */
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap'); */
+
+body {
+  font-family: "Inter", sans-serif; /* A modern, clean font */
+  background: #1e1e2f; /* Deep dark background */
+  color: #f0f0f5; /* Light text for contrast */
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex-grow: 1;
+  margin: 40px auto 20px auto;
+  padding: 30px;
+  width: 90%;
+  max-width: 900px;
+  background: #2a2a44; /* Slightly lighter container background */
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+  color: #00bcd4; /* Bright Teal for the main title */
+  margin-bottom: 25px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* --- Section Styling --- */
+.mode-selector, .input-area {
+  margin: 20px 0;
+  padding: 15px;
+  background: #3c3c66; /* Sub-section background */
+  border-radius: 10px;
+}
+
+/* --- Form/Input Elements --- */
+select, input[type="text"] {
+  padding: 10px 15px;
+  margin: 5px;
+  border: 2px solid #5a5a8a;
+  background-color: #1e1e2f;
+  color: #f0f0f5;
+  border-radius: 8px;
+  width: 180px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+select:focus, input[type="text"]:focus {
+  outline: none;
+  border-color: #00bcd4;
+}
+
+/* --- Button Styling --- */
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  /* Gradient for attractive button background */
+  background: linear-gradient(90deg, #673ab7 0%, #9c27b0 100%); 
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+  background: linear-gradient(90deg, #9c27b0 0%, #673ab7 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Visualizer Area --- */
+.visual {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Stack/Queue elements grow up from the bottom */
+  min-height: 250px;
+  margin: 30px auto;
+  width: 100%;
+  /* Define a clear boundary for the data structure */
+  border: 3px solid #00bcd4; 
+  border-radius: 10px;
+  padding: 15px;
+  background: #3c3c66;
+  flex-wrap: wrap;
+  overflow-x: auto;
+}
+
+/* --- Data Element Styling --- */
+.element {
+  background: #673ab7; /* Primary element color (Purple) */
+  color: white;
+  padding: 12px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  font-weight: 600;
+  min-width: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s, transform 0.3s ease-in-out;
+}
+
+/* Highlight for operations (optional, can be added with JS) */
+.element.highlight {
+    background: #00bcd4; /* Teal highlight */
+    transform: scale(1.05);
+}
+
+/* --- Output and Message Boxes --- */
+.output-box {
+  background: #1e1e2f;
+  border: 1px solid #5a5a8a;
+  border-left: 5px solid #00bcd4; /* Accent line */
+  border-radius: 10px;
+  width: 95%;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 15px;
+  color: #f0f0f5;
+  font-size: 16px;
+  text-align: left;
+  min-height: 40px;
+  white-space: pre-wrap; /* Allows formatting for output */
+}
+
+#message {
+  color: #ff6e40; /* Vibrant orange/red for error/warning messages */
+  font-weight: 600;
+  margin-top: 15px;
+}
+
+/* --- Footer Styling --- */
+footer {
+  margin-top: 30px;
+  padding: 15px;
+  color: #888;
+  background: #1e1e2f;
+  border-top: 1px solid #3c3c66;
+  font-size: 14px;
+}
+
+footer strong {
+    color: #f0f0f5;
+}
